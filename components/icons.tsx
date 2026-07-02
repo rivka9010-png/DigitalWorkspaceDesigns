@@ -1,77 +1,72 @@
-import React from "react";
+// Fresh URLs from Figma nodes 177:1373 & 177:1316 (fetched 2026-07-02)
+const imgIconSearch = "https://www.figma.com/api/mcp/asset/99e5c59d-ae0c-46d1-9874-4e10f71a8e66";
+const imgCitizenDefault = "https://www.figma.com/api/mcp/asset/a5c739b1-c83a-43c2-b433-8f849c41ee3a";
+const imgCitizenActive = "https://www.figma.com/api/mcp/asset/726f1bfa-5c95-4548-8b6f-036baafadbda";
+const imgGuard = "https://www.figma.com/api/mcp/asset/38791ab7-4464-496d-b37d-3732cf0e7887";
+const imgPrisonerHead = "https://www.figma.com/api/mcp/asset/ae526939-5965-44fa-8a48-61f2640219ee";
+const imgPrisonerShoulders = "https://www.figma.com/api/mcp/asset/416c506e-b824-4796-880d-c3d4fd6694a2";
+const imgPrisonerBase = "https://www.figma.com/api/mcp/asset/355fb0a1-3654-4905-8460-911e589081cb";
+const imgOnlineDot = "https://www.figma.com/api/mcp/asset/7a8471ab-b5db-4914-8eb3-ac399bf3b1f0";
+const imgProfilePlaceholder = "https://www.figma.com/api/mcp/asset/16424e10-bc7f-46b8-ac4a-ef33ed4ae013";
 
-const imgIconSearch = "https://www.figma.com/api/mcp/asset/96c82ab6-43c4-4f8b-99a6-fcebcc8b54f9";
-const imgCitizenDefault = "https://www.figma.com/api/mcp/asset/46db93be-27d6-473a-ba35-b095d9817088";
-const imgCitizenActive = "https://www.figma.com/api/mcp/asset/178cc78f-b7ca-44e7-b9a9-5689cac78ecc";
-const imgGuard = "https://www.figma.com/api/mcp/asset/d1a85968-1d7a-4019-98d8-fe1e73676586";
-
-const imgPrisonerHeadA = "https://www.figma.com/api/mcp/asset/d5398034-24f2-494b-b84a-4b8668bfd063";
-const imgPrisonerShouldersA = "https://www.figma.com/api/mcp/asset/ab1efaa8-dc2b-416a-bde1-1d11848fb694";
-const imgPrisonerBaseA = "https://www.figma.com/api/mcp/asset/451cd7cb-b5bc-4436-87cf-845df52d4ca0";
-
-const imgPrisonerHeadB = "https://www.figma.com/api/mcp/asset/8e165379-95da-47cc-a2a5-1885fef5d48b";
-const imgPrisonerShouldersB = "https://www.figma.com/api/mcp/asset/d048a2a7-5a20-46be-90df-5971316b5529";
-const imgPrisonerBaseB = "https://www.figma.com/api/mcp/asset/aedd5fb1-6352-4fbd-8f7e-e89518948e96";
-
-export function SearchIcon({ style }: { style?: React.CSSProperties }) {
+export function SearchIcon({ className }: { className?: string }) {
   return (
-    <div style={{ position: "relative", width: 24, height: 24, flexShrink: 0, ...style }}>
-      <img alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} src={imgIconSearch} />
+    <div className={`relative w-6 h-6 shrink-0 ${className ?? ""}`}>
+      <img alt="" className="absolute inset-0 w-full h-full block" src={imgIconSearch} />
     </div>
   );
 }
 
-export function CitizenIcon({ active = false, style }: { active?: boolean; style?: React.CSSProperties }) {
+export function CitizenIcon({ active = false, className }: { active?: boolean; className?: string }) {
   return (
-    <div style={{ position: "relative", width: 24, height: 24, flexShrink: 0, ...style }}>
-      <img alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} src={active ? imgCitizenActive : imgCitizenDefault} />
+    <div className={`relative w-6 h-6 shrink-0 ${className ?? ""}`}>
+      <img alt="" className="absolute inset-0 w-full h-full block" src={active ? imgCitizenActive : imgCitizenDefault} />
     </div>
   );
 }
 
-export function GuardIcon({ style }: { style?: React.CSSProperties }) {
+export function GuardIcon({ className }: { className?: string }) {
   return (
-    <div style={{ position: "relative", width: 24, height: 24, flexShrink: 0, ...style }}>
-      <img alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} src={imgGuard} />
+    <div className={`relative w-6 h-6 shrink-0 ${className ?? ""}`}>
+      <img alt="" className="absolute inset-0 w-full h-full block" src={imgGuard} />
     </div>
   );
 }
 
-/**
- * The prisoner glyph is assembled from three overlaid vector pieces in Figma.
- * `variant` selects which of the two exported vector sets to use (the filter
- * row and the result-row badge use separate exports of the same glyph).
- */
-export function PrisonerIcon({ variant = "filter", style }: { variant?: "filter" | "row"; style?: React.CSSProperties }) {
-  const head = variant === "filter" ? imgPrisonerHeadA : imgPrisonerHeadB;
-  const shoulders = variant === "filter" ? imgPrisonerShouldersA : imgPrisonerShouldersB;
-  const base = variant === "filter" ? imgPrisonerBaseA : imgPrisonerBaseB;
+export function PrisonerIcon({ className }: { className?: string }) {
   return (
-    <div
-      style={{
-        position: "relative",
-        width: 24,
-        height: 24,
-        flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 4,
-        overflow: "hidden",
-        padding: "3px 6px",
-        ...style,
-      }}
-    >
-      <div style={{ position: "relative", width: 8, height: 8, flexShrink: 0 }}>
-        <img alt="" style={{ display: "block", width: "100%", height: "100%" }} src={head} />
+    <div className={`relative w-6 h-6 shrink-0 flex flex-col items-center gap-1 overflow-hidden px-[6px] py-[3px] ${className ?? ""}`}>
+      <div className="relative w-2 h-2 shrink-0">
+        <img alt="" className="block w-full h-full" src={imgPrisonerHead} />
       </div>
-      <div style={{ position: "relative", width: 12, height: 6, flexShrink: 0 }}>
-        <img alt="" style={{ display: "block", width: "100%", height: "100%" }} src={shoulders} />
+      <div className="relative w-3 h-[6px] shrink-0">
+        <img alt="" className="block w-full h-full" src={imgPrisonerShoulders} />
       </div>
-      <div style={{ position: "absolute", left: "50%", top: 10, transform: "translateX(-50%)", display: "flex", height: 11, alignItems: "flex-end", justifyContent: "center" }}>
-        <div style={{ position: "relative", width: 6, height: 8, flexShrink: 0 }}>
-          <img alt="" style={{ display: "block", width: "100%", height: "100%" }} src={base} />
+      <div className="absolute left-1/2 -translate-x-1/2 top-[10px] flex h-[11px] items-end justify-center">
+        <div className="relative w-[6px] h-2 shrink-0">
+          <img alt="" className="block w-full h-full" src={imgPrisonerBase} />
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function ProfilePlaceholder({ photoUrl, online = false }: { photoUrl?: string; online?: boolean }) {
+  return (
+    <div className="flex items-start justify-end p-1 relative shrink-0">
+      <div className="relative shrink-0 w-[45.714px] h-[45.714px]">
+        <div className="absolute border border-[#393b58] inset-[2.5%] rounded-[4px] overflow-hidden">
+          <img
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            src={photoUrl ?? imgProfilePlaceholder}
+          />
+        </div>
+        {online && (
+          <div className="absolute left-[40px] top-[2px] w-[10px] h-[10px]">
+            <img alt="" className="block w-full h-full" src={imgOnlineDot} />
+          </div>
+        )}
       </div>
     </div>
   );

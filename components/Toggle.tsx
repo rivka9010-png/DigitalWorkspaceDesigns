@@ -1,46 +1,30 @@
-import React from "react";
-
-const imgToggleOff = "https://www.figma.com/api/mcp/asset/196723f1-5cee-48fb-958f-ed2b28df9197";
-const imgToggleOn = "https://www.figma.com/api/mcp/asset/4d0846bc-5e4b-4ae4-bdce-7df94bf9e664";
-
 type ToggleProps = {
   checked: boolean;
   onChange?: (checked: boolean) => void;
-  style?: React.CSSProperties;
+  className?: string;
 };
 
-export default function Toggle({ checked, onChange, style }: ToggleProps) {
+export default function Toggle({ checked, onChange, className }: ToggleProps) {
   return (
     <button
       type="button"
       onClick={() => onChange?.(!checked)}
-      style={{
-        display: "flex",
-        gap: 4,
-        alignItems: "center",
-        position: "relative",
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        padding: 0,
-        ...style,
-      }}
+      className={`flex gap-1 items-center bg-transparent border-0 cursor-pointer p-0 shrink-0 ${className ?? ""}`}
     >
-      <div style={{ position: "relative", width: 48, height: 24, flexShrink: 0 }}>
-        <img alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} src={checked ? imgToggleOn : imgToggleOff} />
+      <div
+        className={`relative flex h-6 w-12 items-center rounded-full transition-colors shrink-0 ${
+          checked ? "bg-[#006aff]" : "bg-[#c5cbdd]"
+        }`}
+      >
+        <span
+          className={`absolute top-[2px] h-5 w-5 rounded-full bg-white shadow transition-transform ${
+            checked ? "translate-x-[26px]" : "translate-x-[2px]"
+          }`}
+        />
       </div>
       <p
-        style={{
-          fontFamily: "Rubik, sans-serif",
-          fontWeight: 400,
-          lineHeight: 1.25,
-          margin: 0,
-          color: "#8e929f",
-          fontSize: 14,
-          textAlign: "right",
-          whiteSpace: "nowrap",
-          direction: "rtl",
-        }}
+        className="m-0 font-rubik font-normal leading-[1.25] text-[#8e929f] text-sm text-right whitespace-nowrap"
+        dir="auto"
       >
         {checked ? "פעיל" : "לא פעיל"}
       </p>

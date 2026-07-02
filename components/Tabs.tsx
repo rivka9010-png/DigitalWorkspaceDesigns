@@ -1,13 +1,18 @@
-import React from "react";
-import { CitizenIcon, PrisonerIcon } from "./icons";
+import { CitizenIcon, GuardIcon, PrisonerIcon } from "./icons";
 
 export type TabKey = "citizens" | "guards" | "prisoners";
 
-const TAB_ORDER: { key: TabKey; label: string }[] = [
+const TABS: { key: TabKey; label: string }[] = [
   { key: "citizens", label: "אזרחים" },
   { key: "guards", label: "סוהרים" },
   { key: "prisoners", label: "אסירים" },
 ];
+
+function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
+  if (tabKey === "citizens") return <CitizenIcon active={active} />;
+  if (tabKey === "guards") return <GuardIcon />;
+  return <PrisonerIcon />;
+}
 
 export default function Tabs({
   active,
@@ -19,73 +24,42 @@ export default function Tabs({
   onChange?: (key: TabKey) => void;
 }) {
   return (
-    <div style={{ display: "flex", flex: "1 0 0", height: "100%", alignItems: "center", justifyContent: "flex-end", minWidth: 0 }}>
-      {TAB_ORDER.map(({ key, label }) => {
+    <div className="flex flex-1 h-full items-center justify-end min-w-0">
+      {TABS.map(({ key, label }) => {
         const isActive = key === active;
         return (
           <button
             key={key}
             type="button"
             onClick={() => onChange?.(key)}
-            style={{
-              display: "flex",
-              gap: 8,
-              height: 48,
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "10px 8px",
-              background: "none",
-              border: "none",
-              borderBottom: isActive ? "1px solid #006aff" : "none",
-              cursor: "pointer",
-              flexShrink: 0,
-            }}
+            className={`flex gap-2 h-12 items-center justify-center px-2 py-[10px] bg-transparent border-0 border-b cursor-pointer shrink-0 ${
+              isActive ? "border-[#006aff]" : "border-transparent"
+            }`}
           >
             <div
-              style={{
-                background: isActive ? "#e6f4ff" : "#f5f5f5",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "4px 8px",
-                borderRadius: 32,
-                width: 24,
-                height: 24,
-                boxSizing: "border-box",
-              }}
+              className={`flex flex-col items-center justify-center px-2 py-1 rounded-[32px] w-6 h-6 box-border shrink-0 ${
+                isActive ? "bg-[#e6f4ff]" : "bg-[#f5f5f5]"
+              }`}
             >
               <p
-                style={{
-                  margin: 0,
-                  fontFamily: "Rubik, sans-serif",
-                  fontWeight: isActive ? 500 : 400,
-                  fontSize: 14,
-                  lineHeight: isActive ? 1 : 1.25,
-                  color: isActive ? "#006aff" : "#8e929f",
-                  whiteSpace: "nowrap",
-                  direction: "rtl",
-                }}
+                className={`m-0 font-rubik text-sm whitespace-nowrap ${
+                  isActive ? "font-medium leading-none text-[#006aff]" : "font-normal leading-[1.25] text-[#8e929f]"
+                }`}
+                dir="auto"
               >
                 {counts[key]}
               </p>
             </div>
             <p
-              style={{
-                margin: 0,
-                fontFamily: "Rubik, sans-serif",
-                fontWeight: isActive ? 600 : 400,
-                fontSize: 16,
-                lineHeight: 1.25,
-                color: isActive ? "#006aff" : "#8e929f",
-                whiteSpace: "nowrap",
-                direction: "rtl",
-              }}
+              className={`m-0 font-rubik text-base leading-[1.25] whitespace-nowrap ${
+                isActive ? "font-semibold text-[#006aff]" : "font-normal text-[#8e929f]"
+              }`}
+              dir="auto"
             >
               {label}
             </p>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: 4, borderRadius: 8 }}>
-              {isActive ? <CitizenIcon active /> : <PrisonerIcon variant="filter" />}
+            <div className="flex items-center justify-center p-1 rounded-lg shrink-0">
+              <TabIcon tabKey={key} active={isActive} />
             </div>
           </button>
         );

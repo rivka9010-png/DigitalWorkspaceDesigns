@@ -3,16 +3,28 @@ import Badge from "./Badge";
 import Avatar from "./Avatar";
 import { PrisonerIcon } from "./icons";
 
-function NameBlock({ id, name, personalNumber, line2, line3 }: { id: string; name: string; personalNumber: string; line2: string; line3: string }) {
+function NameBlock({
+  id,
+  name,
+  personalNumber,
+  line2,
+  line3,
+}: {
+  id: string;
+  name: string;
+  personalNumber: string;
+  line2: string;
+  line3: string;
+}) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-start", position: "relative", width: 220 }}>
-      <div style={{ display: "flex", gap: 8, alignItems: "flex-start", justifyContent: "flex-end", fontSize: 16, width: "100%", whiteSpace: "nowrap" }}>
-        <p style={{ margin: 0, fontFamily: "Rubik, sans-serif", fontWeight: 500, color: "#00033d", direction: "rtl" }}>{id}</p>
-        <p style={{ margin: 0, fontFamily: "Rubik, sans-serif", fontWeight: 500, color: "#00033d", direction: "rtl" }}>{name} | </p>
+    <div className="flex flex-col gap-2 items-start relative w-[220px] shrink-0 leading-[1.25] text-right break-words">
+      <div className="flex gap-2 items-start justify-end text-base w-full whitespace-nowrap">
+        <p className="m-0 font-rubik font-medium text-[#00033d]" dir="auto">{id}</p>
+        <p className="m-0 font-rubik font-medium text-[#00033d]" dir="auto">{name} | </p>
       </div>
-      <p style={{ margin: 0, fontFamily: "Rubik, sans-serif", fontWeight: 400, fontSize: 14, color: "#8e929f", width: "100%", direction: "rtl" }}>{personalNumber}</p>
-      <p style={{ margin: 0, fontFamily: "Rubik, sans-serif", fontWeight: 400, fontSize: 14, color: "#8e929f", width: "100%", direction: "rtl" }}>{line2}</p>
-      <p style={{ margin: 0, fontFamily: "Rubik, sans-serif", fontWeight: 400, fontSize: 14, color: "#8e929f", width: "100%", direction: "rtl" }}>{line3}</p>
+      <p className="m-0 font-rubik font-normal text-sm text-[#8e929f] w-full" dir="auto">{personalNumber}</p>
+      <p className="m-0 font-rubik font-normal text-sm text-[#8e929f] w-full" dir="auto">{line2}</p>
+      <p className="m-0 font-rubik font-normal text-sm text-[#8e929f] w-full" dir="auto">{line3}</p>
     </div>
   );
 }
@@ -27,33 +39,39 @@ export type ResultRowData = {
   online?: boolean;
 };
 
-export default function ResultRow({ id, name, personalNumber, line2, line3, photoUrl, online, style }: ResultRowData & { style?: React.CSSProperties }) {
+export default function ResultRow({
+  id,
+  name,
+  personalNumber,
+  line2,
+  line3,
+  photoUrl,
+  online,
+  className,
+}: ResultRowData & { className?: string }) {
   return (
     <div
-      style={{
-        background: "#fff",
-        borderBottom: "1px solid #f5f5f5",
-        display: "flex",
-        gap: 24,
-        alignItems: "flex-start",
-        justifyContent: "flex-end",
-        padding: 16,
-        width: "100%",
-        boxSizing: "border-box",
-        ...style,
-      }}
+      className={`bg-white border-b border-[#f5f5f5] flex gap-6 items-start justify-end p-4 w-full box-border shrink-0 ${className ?? ""}`}
     >
-      <div style={{ flex: "1 0 0", minWidth: 0 }} />
-      <div style={{ display: "flex", gap: 4, alignItems: "center", justifyContent: "center", padding: "0 4px", alignSelf: "stretch", flexShrink: 0 }}>
-        <PrisonerIcon variant="row" style={{ padding: 4, borderRadius: 8 }} />
-        <div style={{ display: "flex", gap: 3, alignItems: "center", flexShrink: 0 }}>
+      <div className="flex-1 min-w-0 h-[114px]" />
+      <div className="flex gap-1 items-center justify-center px-1 self-stretch shrink-0">
+        <div className="flex items-center justify-center p-1 rounded-lg shrink-0">
+          <PrisonerIcon />
+        </div>
+        <div className="flex gap-[3px] items-center shrink-0">
           <Badge status="active" />
           <Badge status="future" />
           <Badge status="past" />
         </div>
       </div>
-      <div style={{ display: "flex", gap: 16, alignItems: "flex-start", justifyContent: "flex-end", alignSelf: "stretch", flexShrink: 0 }}>
-        <NameBlock id={id} name={name} personalNumber={personalNumber} line2={line2} line3={line3} />
+      <div className="flex gap-4 items-start justify-end self-stretch shrink-0">
+        <NameBlock
+          id={id}
+          name={name}
+          personalNumber={personalNumber}
+          line2={line2}
+          line3={line3}
+        />
         <Avatar photoUrl={photoUrl} online={online} />
       </div>
     </div>

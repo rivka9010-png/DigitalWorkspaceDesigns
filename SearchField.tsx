@@ -4,12 +4,10 @@ import Toggle from "./components/Toggle";
 import Tabs, { TabKey } from "./components/Tabs";
 import ResultRow, { ResultRowData } from "./components/ResultRow";
 
-const imgSampleProfile = "https://www.figma.com/api/mcp/asset/49082810-f52e-44e5-91c5-a80a3b53dea1";
+const imgSampleProfile = "https://www.figma.com/api/mcp/asset/16424e10-bc7f-46b8-ac4a-ef33ed4ae013";
 
 const SAMPLE_RESULTS: ResultRowData[] = [
   { id: "123456", name: "עלי מזרחי", personalNumber: "356565595959", line2: "סוג אסיר | 052-7654321", line3: "שיבוץ | 052-7654321", photoUrl: imgSampleProfile, online: true },
-  { id: "123456", name: "עלי מזרחי", personalNumber: "356565595959", line2: "סוג אסיר | 052-7654321", line3: "שיבוץ | 052-7654321", online: true },
-  { id: "123456", name: "עלי מזרחי", personalNumber: "356565595959", line2: "סוג אסיר | 052-7654321", line3: "שיבוץ | 052-7654321", online: true },
   { id: "123456", name: "עלי מזרחי", personalNumber: "356565595959", line2: "סוג אסיר | 052-7654321", line3: "שיבוץ | 052-7654321", online: true },
   { id: "123456", name: "עלי מזרחי", personalNumber: "356565595959", line2: "סוג אסיר | 052-7654321", line3: "שיבוץ | 052-7654321", online: true },
 ];
@@ -18,135 +16,98 @@ const TAB_COUNTS: Record<TabKey, number> = { citizens: 10, guards: 10, prisoners
 
 type PersonFilter = "citizen" | "guard" | "prisoner";
 
-type SearchFieldProps = {
-  style?: React.CSSProperties;
-  placeholder?: string;
-};
-
-function FilterButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function FilterButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 4,
-        borderRadius: 8,
-        background: active ? "#e6f4ff" : "transparent",
-        border: "none",
-        cursor: "pointer",
-      }}
+      className={`flex items-center justify-center border-0 cursor-pointer shrink-0 transition-all ${
+        active
+          ? "bg-[#e6f4ff] rounded-full p-[10px] w-8 h-8 box-border"
+          : "bg-transparent rounded-lg p-1"
+      }`}
     >
       {children}
     </button>
   );
 }
 
-export default function SearchField({ style, placeholder = "איתור אדם" }: SearchFieldProps) {
+export default function SearchField({
+  className,
+  placeholder = "איתור אדם",
+}: {
+  className?: string;
+  placeholder?: string;
+}) {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
-  const [activeOnly, setActiveOnly] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const [activeOnly, setActiveOnly] = useState(false);
   const [personFilter, setPersonFilter] = useState<PersonFilter>("citizen");
   const [activeTab, setActiveTab] = useState<TabKey>("prisoners");
 
-  const open = focused || query.length > 0;
+  // default = no interaction | hover = mouse over | active = focused or has text
+  const isActive = focused || query.length > 0;
+  const showFull = hovered || isActive;
 
   return (
     <div
-      style={{
-        background: "#fff",
-        display: "flex",
-        flexDirection: "column",
-        gap: 4,
-        alignItems: "flex-end",
-        overflow: "hidden",
-        padding: 4,
-        position: "relative",
-        borderRadius: 8,
-        width: 528,
-        boxShadow: open ? "0px 4px 12px 0px rgba(6,77,173,0.15)" : "none",
-        ...style,
-      }}
+      dir="ltr"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={`bg-white flex flex-col gap-1 items-end overflow-hidden p-1 relative rounded-lg w-[528px] transition-shadow ${
+        showFull ? "shadow-search" : ""
+      } ${className ?? ""}`}
     >
+      {/* Search bar — always visible */}
       <div
-        style={{
-          background: "#fff",
-          border: "2px solid #006aff",
-          display: "flex",
-          gap: 8,
-          height: 64,
-          alignItems: "center",
-          justifyContent: "flex-end",
-          padding: "12px 16px",
-          position: "relative",
-          borderRadius: 8,
-          width: "100%",
-          boxSizing: "border-box",
-        }}
+        className={`bg-white flex gap-2 h-[47px] items-center px-4 py-3 relative rounded-lg shrink-0 w-full box-border border-solid transition-all ${
+          isActive ? "border-2 border-[#006aff]" : "border border-[#006aff]"
+        }`}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <FilterButton active={personFilter === "citizen"} onClick={() => setPersonFilter("citizen")}>
-            <CitizenIcon active={personFilter === "citizen"} />
-          </FilterButton>
-          <FilterButton active={personFilter === "guard"} onClick={() => setPersonFilter("guard")}>
-            <GuardIcon />
-          </FilterButton>
-          <FilterButton active={personFilter === "prisoner"} onClick={() => setPersonFilter("prisoner")}>
-            <PrisonerIcon variant="filter" />
-          </FilterButton>
-        </div>
-        <Toggle checked={activeOnly} onChange={setActiveOnly} />
+        {/* Filter icons — appear on hover & active */}
+        {showFull && (
+          <div className="flex items-center shrink-0">
+            <FilterButton active={personFilter === "citizen"} onClick={() => setPersonFilter("citizen")}>
+              <CitizenIcon active={personFilter === "citizen"} />
+            </FilterButton>
+            <FilterButton active={personFilter === "guard"} onClick={() => setPersonFilter("guard")}>
+              <GuardIcon />
+            </FilterButton>
+            <FilterButton active={personFilter === "prisoner"} onClick={() => setPersonFilter("prisoner")}>
+              <PrisonerIcon />
+            </FilterButton>
+          </div>
+        )}
+
+        {/* Toggle — appears on hover & active */}
+        {showFull && <Toggle checked={activeOnly} onChange={setActiveOnly} />}
+
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           placeholder={placeholder}
-          style={{
-            flex: "1 0 0",
-            minWidth: 0,
-            fontFamily: "Rubik, sans-serif",
-            fontWeight: 400,
-            lineHeight: 1.25,
-            color: "#00033d",
-            fontSize: 16,
-            textAlign: "right",
-            direction: "rtl",
-            border: "none",
-            outline: "none",
-            background: "transparent",
-          }}
+          dir="rtl"
+          className="flex-1 min-w-0 font-rubik font-normal leading-[1.25] text-[#00033d] text-base text-right border-0 outline-none bg-transparent placeholder:text-[#8e929f]"
         />
+
         <SearchIcon />
       </div>
 
-      {open && (
-        <div
-          style={{
-            background: "#fff",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            overflow: "hidden",
-            borderRadius: 8,
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              background: "#fff",
-              borderBottom: "1px solid #f5f5f5",
-              display: "flex",
-              height: 48,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 16,
-              width: "100%",
-              boxSizing: "border-box",
-            }}
-          >
+      {/* Dropdown — appears on active (focused or has text) */}
+      {isActive && (
+        <div className="bg-white flex flex-col items-start overflow-hidden rounded-lg shrink-0 w-full">
+          <div className="bg-white border-b border-[#f5f5f5] flex h-12 items-center justify-center pl-4 shrink-0 w-full box-border">
             <Tabs active={activeTab} counts={TAB_COUNTS} onChange={setActiveTab} />
           </div>
           {SAMPLE_RESULTS.map((result, i) => (
