@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { CitizenIcon, GuardIcon, PrisonerIcon, SearchIcon } from "./components/icons";
-import Toggle from "./components/Toggle";
-import Tabs, { TabKey } from "./components/Tabs";
-import ResultRow, { ResultRowData } from "./components/ResultRow";
+import { CitizenIcon, GuardIcon, PrisonerIcon, SearchIcon } from "../../components/icons";
+import Toggle from "../../components/Toggle";
+import Tabs, { TabKey } from "../../components/Tabs";
+import ResultRow, { ResultRowData } from "../../components/ResultRow";
 
 const imgSampleProfile = "https://www.figma.com/api/mcp/asset/16424e10-bc7f-46b8-ac4a-ef33ed4ae013";
 

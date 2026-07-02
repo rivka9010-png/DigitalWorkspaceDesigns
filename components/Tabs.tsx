@@ -11,7 +11,7 @@ const TABS: { key: TabKey; label: string }[] = [
 function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
   if (tabKey === "citizens") return <CitizenIcon active={active} />;
   if (tabKey === "guards") return <GuardIcon />;
-  return <PrisonerIcon />;
+  return <PrisonerIcon active={active} />;
 }
 
 export default function Tabs({

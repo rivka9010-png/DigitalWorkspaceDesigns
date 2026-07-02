@@ -33,9 +33,12 @@ export function GuardIcon({ className }: { className?: string }) {
   );
 }
 
-export function PrisonerIcon({ className }: { className?: string }) {
+export function PrisonerIcon({ active = false, className }: { active?: boolean; className?: string }) {
   return (
-    <div className={`relative w-6 h-6 shrink-0 flex flex-col items-center gap-1 overflow-hidden px-[6px] py-[3px] ${className ?? ""}`}>
+    <div
+      className={`relative w-6 h-6 shrink-0 flex flex-col items-center gap-1 overflow-hidden px-[6px] py-[3px] ${className ?? ""}`}
+      style={active ? { filter: "brightness(0) saturate(100%) invert(27%) sepia(89%) saturate(3000%) hue-rotate(214deg) brightness(103%)" } : undefined}
+    >
       <div className="relative w-2 h-2 shrink-0">
         <img alt="" className="block w-full h-full" src={imgPrisonerHead} />
       </div>

@@ -15,5 +15,5 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "SearchField.tsx", "components"]
+  "include": ["src", "home/searchPerson/SearchField.tsx", "components"]
 }
