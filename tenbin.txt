@@ -1,0 +1,148 @@
+DigitalWorkspaceDesigns - FeedReport export
+========================================
+
+Based on the Figma reference: https://www.figma.com/design/IaP6jGb6AgxuCQaja9mPiv/%D7%A8%D7%9B%D7%99%D7%91%D7%99-%D7%A9%D7%95%D7%9C%D7%97%D7%9F?node-id=377-8537&m=dev
+
+Files added/updated:
+- home/Reports/FeedReport.tsx
+- home/Reports/icons/FeedReportIcons.tsx
+- src/main.tsx
+
+1) home/Reports/icons/FeedReportIcons.tsx
+----------------------------------------
+import type { SVGProps } from "react";
+
+type IconProps = SVGProps<SVGSVGElement> & { className?: string };
+
+export function FeedClockIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.75" />
+      <path d="M12 7.5V12L14.5 13.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function FeedDocumentIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M7 3.75H13.5L17.25 7.5V20.25C17.25 20.6642 16.9142 21 16.5 21H7C6.58579 21 6.25 20.6642 6.25 20.25V4.5C6.25 4.08579 6.58579 3.75 7 3.75Z" stroke="currentColor" strokeWidth="1.75" />
+      <path d="M13.5 3.75V8.25H18" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.5 13H14.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+      <path d="M9.5 16.5H13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function FeedMessageIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M6.5 5.75H17.5C18.1904 5.75 18.75 6.30964 18.75 7V14.5C18.75 15.1904 18.1904 15.75 17.5 15.75H9.5L5.25 19V7C5.25 6.30964 5.80964 5.75 6.5 5.75Z" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" />
+      <path d="M8.25 9.75H15.75" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+      <path d="M8.25 12.5H13.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+2) home/Reports/FeedReport.tsx
+-----------------------------
+import { FeedClockIcon, FeedDocumentIcon, FeedMessageIcon } from "./icons/FeedReportIcons";
+
+type FeedItem = {
+  title: string;
+  description: string;
+  meta: string;
+  icon: "clock" | "document" | "message";
+};
+
+const feedItems: FeedItem[] = [
+  {
+    title: "Updated incident summary",
+    description: "New notes and attachments were added to the latest report.",
+    meta: "10 min ago",
+    icon: "clock",
+  },
+  {
+    title: "Shared follow-up document",
+    description: "The latest evaluation document is now available for review.",
+    meta: "1 hour ago",
+    icon: "document",
+  },
+  {
+    title: "Team message received",
+    description: "A new message was posted with the latest operational status.",
+    meta: "2 hours ago",
+    icon: "message",
+  },
+];
+
+function renderIcon(type: FeedItem["icon"]) {
+  const className = "h-5 w-5 text-[#4F5A72]";
+
+  switch (type) {
+    case "clock":
+      return <FeedClockIcon className={className} />;
+    case "document":
+      return <FeedDocumentIcon className={className} />;
+    case "message":
+      return <FeedMessageIcon className={className} />;
+  }
+}
+
+export function FeedReport() {
+  return (
+    <section className="w-full max-w-[560px] rounded-[24px] border border-[#E7ECF3] bg-[#FCFDFF] p-[20px] shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+      <div className="mb-[14px] flex items-center justify-between">
+        <div>
+          <p className="text-[18px] font-semibold leading-6 text-[#172033]">Feed report</p>
+          <p className="mt-[2px] text-[13px] leading-5 text-[#6B7280]">Latest activity and updates</p>
+        </div>
+        <div className="flex items-center gap-2 rounded-full border border-[#DCE8FF] bg-[#F4F9FF] px-[10px] py-[6px]">
+          <span className="h-[8px] w-[8px] rounded-full bg-[#2F80ED]" />
+          <span className="text-[12px] font-semibold text-[#2F80ED]">Live</span>
+        </div>
+      </div>
+
+      <div className="space-y-[10px]">
+        {feedItems.map((item) => (
+          <div
+            key={item.title}
+            className="flex items-center gap-[12px] rounded-[16px] border border-[#EEF2F7] bg-white px-[14px] py-[12px] shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+          >
+            <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[12px] bg-[#F5F8FC] text-[#4F5A72]">
+              {renderIcon(item.icon)}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <p className="truncate text-[14px] font-semibold text-[#111827]">{item.title}</p>
+                <span className="whitespace-nowrap text-[12px] text-[#9CA3AF]">{item.meta}</span>
+              </div>
+              <p className="mt-[2px] text-[13px] leading-[18px] text-[#6B7280]">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default FeedReport;
+
+3) src/main.tsx
+---------------
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import FeedReport from "../home/Reports/FeedReport";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <div className="min-h-screen bg-slate-100 p-6">
+      <FeedReport />
+    </div>
+  </React.StrictMode>
+);
+
+Note:
+- The implementation was prepared as a GitHub-ready export file inside the workspace.
+- If you want, I can next help you turn it into a proper Git commit or a PR-ready branch.

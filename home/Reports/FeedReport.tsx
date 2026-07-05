@@ -1,0 +1,81 @@
+import { FeedClockIcon, FeedDocumentIcon, FeedMessageIcon } from "./icons/FeedReportIcons";
+
+type FeedItem = {
+  title: string;
+  description: string;
+  meta: string;
+  icon: "clock" | "document" | "message";
+};
+
+const feedItems: FeedItem[] = [
+  {
+    title: "Updated incident summary",
+    description: "New notes and attachments were added to the latest report.",
+    meta: "10 min ago",
+    icon: "clock",
+  },
+  {
+    title: "Shared follow-up document",
+    description: "The latest evaluation document is now available for review.",
+    meta: "1 hour ago",
+    icon: "document",
+  },
+  {
+    title: "Team message received",
+    description: "A new message was posted with the latest operational status.",
+    meta: "2 hours ago",
+    icon: "message",
+  },
+];
+
+function renderIcon(type: FeedItem["icon"]) {
+  const className = "h-5 w-5 text-[#4F5A72]";
+
+  switch (type) {
+    case "clock":
+      return <FeedClockIcon className={className} />;
+    case "document":
+      return <FeedDocumentIcon className={className} />;
+    case "message":
+      return <FeedMessageIcon className={className} />;
+  }
+}
+
+export function FeedReport() {
+  return (
+    <section className="w-full max-w-[560px] rounded-[24px] border border-[#E7ECF3] bg-[#FCFDFF] p-[20px] shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+      <div className="mb-[14px] flex items-center justify-between">
+        <div>
+          <p className="text-[18px] font-semibold leading-6 text-[#172033]">Feed report</p>
+          <p className="mt-[2px] text-[13px] leading-5 text-[#6B7280]">Latest activity and updates</p>
+        </div>
+        <div className="flex items-center gap-2 rounded-full border border-[#DCE8FF] bg-[#F4F9FF] px-[10px] py-[6px]">
+          <span className="h-[8px] w-[8px] rounded-full bg-[#2F80ED]" />
+          <span className="text-[12px] font-semibold text-[#2F80ED]">Live</span>
+        </div>
+      </div>
+
+      <div className="space-y-[10px]">
+        {feedItems.map((item) => (
+          <div
+            key={item.title}
+            className="flex items-center gap-[12px] rounded-[16px] border border-[#EEF2F7] bg-white px-[14px] py-[12px] shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+          >
+            <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[12px] bg-[#F5F8FC] text-[#4F5A72]">
+              {renderIcon(item.icon)}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <p className="truncate text-[14px] font-semibold text-[#111827]">{item.title}</p>
+                <span className="whitespace-nowrap text-[12px] text-[#9CA3AF]">{item.meta}</span>
+              </div>
+              <p className="mt-[2px] text-[13px] leading-[18px] text-[#6B7280]">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default FeedReport;
